@@ -10,6 +10,8 @@
 /build
 /logs/*
 
+.env
+
 # workspace
 /.idea
 
