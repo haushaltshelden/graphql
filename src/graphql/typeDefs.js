@@ -22,19 +22,21 @@ const typeDefs = `
     code: Int
     msg: String
   }
+
+  type household {
+    name: String
+    membercount: Int
+    _id: ID
+  }
   
   type User {
     _id: ID!
     name: String!
     email: String!
-    activationKey: String
     password: String
-    newsletterActivated: Boolean
-    isBanned: Boolean
-    isActivated: Boolean
-    languages: [String]
     wrongLoginCount: Int
-    community: ID
+    household: ID
+    points: Int
     deleted: Boolean
     createdAt: Date
     updatedAt: Date
@@ -44,11 +46,16 @@ const typeDefs = `
   type Query {
     users(sorting: Sorting, pagination: Pagination = ${defaultPagination}, filter: Filter): [User]
     myUser: User
+    getHouseholds: [household]
+    getMyHousehold: household
   }
   
   type Mutation {
     createUser(name: String!, email: String!, password: String!): SuccessErrorResponse
     loginUser(name: String!, password: String!, platform: String!): SuccessErrorResponse
+    createHousehold(name: String!): SuccessErrorResponse
+    joinHousehold(id: ID!): SuccessErrorResponse
+    leaveHousehold: SuccessErrorResponse
   }
 `;
 

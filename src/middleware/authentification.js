@@ -44,7 +44,7 @@ const auth = async ({ req }) => {
             user: 1,
             usage: 1,
           },
-        ).populate('user');
+        ).populate('user user.household');
 
         if (!userToken) {
           throw new Error('Not authorized');

@@ -9,8 +9,9 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: String,
     wrongLoginCount: { type: Number, default: 0 },
-    community: { type: ObjectId, ref: 'Community' },
-    isActivated: { type: Boolean, default: false },
+    household: { type: ObjectId, ref: 'Household' },
+    points: { type: Number, default: 0 },
+    isActivated: {type: Boolean, default: true }
   },
   { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } },
 );
