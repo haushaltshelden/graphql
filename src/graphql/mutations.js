@@ -2,6 +2,8 @@ const ErrorHandling = require('../utils/errorHandling');
 
 const UserService = require('../services/user');
 const HouseholdService = require('../services/household');
+const ChallengeService = require('../services/challenge');
+const RewardService = require('../services/reward');
 
 const mutations = {
   createUser: (_, { name, email, password }) => {
@@ -43,6 +45,42 @@ const mutations = {
       });
 
     return HouseholdService.leaveHousehold(context.user);
+  },
+  createChallenge: (_, { name, points }, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'createChallenge',
+        context,
+      });
+
+    return ChallengeService.createChallenge(name, points, context.user);
+  },
+  completeChallenge: (_, { id }, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'completeChallenge',
+        context,
+      });
+
+    return ChallengeService.completeChallenge(id, context.user);
+  },
+  createReward: (_, { name, costs }, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'createReward',
+        context,
+      });
+
+    return RewardService.createReward(name, costs, context.user);
+  },
+  collectReward: (_, { id }, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'collectReward',
+        context,
+      });
+
+    return RewardService.collectReward(id, context.user);
   },
 };
 

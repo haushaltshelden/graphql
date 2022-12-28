@@ -23,7 +23,7 @@ const typeDefs = `
     msg: String
   }
 
-  type household {
+  type Household {
     name: String
     membercount: Int
     _id: ID
@@ -42,12 +42,29 @@ const typeDefs = `
     updatedAt: Date
     deletedAt: Date
   }
+
+  type Challenge {
+    name: String
+    points: Int
+    last_done: Date
+    household: Household
+    created_at: Date
+    _id: ID
+  }
+
+  type Reward {
+    name: String
+    costs: Int
+    _id: ID
+  }
   
   type Query {
     users(sorting: Sorting, pagination: Pagination = ${defaultPagination}, filter: Filter): [User]
     myUser: User
-    getHouseholds: [household]
-    getMyHousehold: household
+    getHouseholds: [Household]
+    getMyHousehold: Household
+    getChallenges: [Challenge]
+    getRewards: [Reward]
   }
   
   type Mutation {
@@ -56,6 +73,10 @@ const typeDefs = `
     createHousehold(name: String!): SuccessErrorResponse
     joinHousehold(id: ID!): SuccessErrorResponse
     leaveHousehold: SuccessErrorResponse
+    createChallenge(name: String!, points: Int!): SuccessErrorResponse
+    completeChallenge(id: ID!): SuccessErrorResponse
+    createReward(name: String, costs: Int!): SuccessErrorResponse
+    collectReward(id: ID!): SuccessErrorResponse
   }
 `;
 
