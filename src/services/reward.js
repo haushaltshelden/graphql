@@ -4,7 +4,7 @@ const CollectedReward = require('../models/CollectedReward');
 const getRewards = async (user) => {
   return await Reward.find({
     household: user.household,
-  });
+  }).sort({ costs: 1 });
 };
 
 const createReward = async (name, costs, user) => {
@@ -22,8 +22,7 @@ const createReward = async (name, costs, user) => {
 const collectReward = async (id, user) => {
   const reward = await Reward.findById(id);
 
-  if (!reward)
-    return { success: false, code: 1, msg: 'Reward not found.' };
+  if (!reward) return { success: false, code: 1, msg: 'Reward not found.' };
 
   await CollectedReward.create({
     user,
@@ -44,5 +43,5 @@ const collectReward = async (id, user) => {
 module.exports = {
   getRewards,
   createReward,
-  collectReward
+  collectReward,
 };

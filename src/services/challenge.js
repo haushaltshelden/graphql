@@ -4,7 +4,7 @@ const CompletedChallenge = require('../models/CompletedChallenge');
 const getChallenges = async (user) => {
   return await Challenge.find({
     household: user.household,
-  });
+  }).sort({ last_done: -1 });
 };
 
 const createChallenge = async (name, points, user) => {
@@ -33,8 +33,8 @@ const completeChallenge = async (id, user) => {
   });
 
   await challenge.update({
-    last_done: new Date()
-  })
+    last_done: new Date(),
+  });
 
   await user.update({
     $inc: { points: challenge.points },
@@ -48,5 +48,5 @@ const completeChallenge = async (id, user) => {
 module.exports = {
   getChallenges,
   createChallenge,
-  completeChallenge
+  completeChallenge,
 };
