@@ -1,5 +1,6 @@
 const Reward = require('../models/Reward');
 const CollectedReward = require('../models/CollectedReward');
+const moment = require('moment')
 
 const getRewards = async (user) => {
   return await Reward.find({
@@ -40,8 +41,15 @@ const collectReward = async (id, user) => {
   };
 };
 
+const getLastRewards = async (user) => {
+  return await CollectedReward.find({
+    household: user.household,
+  }).sort({ createdAt: -1 }).populate('user reward').limit(5).lean();
+}
+
 module.exports = {
   getRewards,
   createReward,
   collectReward,
+  getLastRewards
 };

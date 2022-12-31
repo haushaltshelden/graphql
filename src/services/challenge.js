@@ -1,5 +1,6 @@
 const Challenge = require('../models/Challenge');
 const CompletedChallenge = require('../models/CompletedChallenge');
+const moment = require('moment')
 
 const getChallenges = async (user) => {
   return await Challenge.find({
@@ -45,8 +46,15 @@ const completeChallenge = async (id, user) => {
   };
 };
 
+const getLastChallenges = async (user) => {
+  return await CompletedChallenge.find({
+    household: user.household,
+  }).sort({ createdAt: -1 }).populate('user challenge').limit(5).lean();
+}
+
 module.exports = {
   getChallenges,
   createChallenge,
   completeChallenge,
+  getLastChallenges
 };

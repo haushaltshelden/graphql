@@ -57,6 +57,20 @@ const typeDefs = `
     costs: Int
     _id: ID
   }
+
+  type CollectedReward {
+    user: User
+    costs: Int
+    reward: Reward
+    createdAt: Date
+  }
+
+  type CompletedChallenge {
+    user: User
+    points: Int
+    challenge: Challenge
+    createdAt: Date
+  }
   
   type Query {
     users(sorting: Sorting, pagination: Pagination = ${defaultPagination}, filter: Filter): [User]
@@ -65,6 +79,8 @@ const typeDefs = `
     getMyHousehold: Household
     getChallenges: [Challenge]
     getRewards: [Reward]
+    getLastChallenges: [CompletedChallenge]
+    getLastRewards: [CollectedReward] 
   }
   
   type Mutation {

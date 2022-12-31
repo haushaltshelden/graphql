@@ -42,6 +42,24 @@ const queries = {
 
     return RewardService.getRewards(context.user);
   },
+  getLastChallenges: (_, args, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'getLastChallenges',
+        context,
+      });
+
+    return ChallengeService.getLastChallenges(context.user);
+  },
+  getLastRewards: (_, args, context) => {
+    if (!context.user)
+      ErrorHandling.handleError('No user context', {
+        method: 'getLastRewards',
+        context,
+      });
+
+    return RewardService.getLastRewards(context.user);
+  },
 };
 
 module.exports = queries;
