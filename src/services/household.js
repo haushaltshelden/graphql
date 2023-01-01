@@ -1,4 +1,5 @@
 const Household = require('../models/Household');
+const User = require('../models/User');
 
 const getHousholds = async () => {
   return await Household.find();
@@ -32,11 +33,14 @@ const joinHousehold = async (id, user) => {
   if (!hh)
     return { success: false, code: 1, msg: 'Household does not exists!' };
 
-  await Household.updateOne({
-    _id: id
-  }, {
-    $inc: { membercount: 1 }
-  })
+  await Household.updateOne(
+    {
+      _id: id,
+    },
+    {
+      $inc: { membercount: 1 },
+    },
+  );
 
   await user.updateOne({ household: hh._id });
 
@@ -46,7 +50,9 @@ const joinHousehold = async (id, user) => {
 };
 
 const getMyHousehold = async (user) => {
-  return await Household.findById(user.household);
+  const household = await Household.findById(user.household).lean();
+  const users = await User.find({ household: user.household }).sort({points: -1});
+  return { ...household, members: users };
 };
 
 const leaveHousehold = async (user) => {
@@ -61,7 +67,7 @@ const leaveHousehold = async (user) => {
 
   return {
     success: true,
-  }
+  };
 };
 
 module.exports = {

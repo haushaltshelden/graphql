@@ -26,6 +26,7 @@ const typeDefs = `
   type Household {
     name: String
     membercount: Int
+    members: [User]
     _id: ID
   }
   
